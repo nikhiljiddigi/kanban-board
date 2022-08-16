@@ -12,7 +12,7 @@ As already stated this project is an implementation of such board and made of 3 
 
 The entry point for a user is a website which is available under the address: **http://localhost:4200/**
 
-![Kanban](https://github.com/wkrzywiec/kanban-board/blob/master/assets/kanban.gif)
+![Kanban](https://github.com/nikhiljiddigi/kanban-board/blob/master/assets/kanban.gif)
 
 More information about this project you can found in blog post: https://medium.com/@wkrzywiec/how-to-run-database-backend-and-frontend-in-a-single-click-with-docker-compose-4bcda66f6de
 
@@ -85,7 +85,7 @@ Full list of available REST endpoints could be found in Swagger UI,
 which could be called using link: **http://localhost:8080/api/swagger-ui.html**
 
 
-![swagger-ui](https://github.com/wkrzywiec/kanban-board/blob/master/assets/swagger.png)
+![swagger-ui](https://github.com/nikhiljiddigi/kanban-board/blob/master/assets/swagger.png)
 
 
 This app is also put in Docker container and its definition can be found
