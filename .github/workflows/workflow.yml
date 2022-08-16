@@ -1,0 +1,41 @@
+name: Kaban Product Workflow
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GHCR_TOKEN }}
+    - uses: actions/checkout@v1
+    - name: Build and push kanban-ui docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./kanban-ui
+        file: ./kanban-ui/Dockerfile
+        push: true
+        tags: |
+          ghcr.io/nikhiljiddigi/kanban-ui:latest
+    - name: Build and push kanban-app docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./kanban-app
+        file: ./kanban-app/Dockerfile
+        push: true
+        tags: |
+          ghcr.io/nikhiljiddigi/kanban-app:latest
