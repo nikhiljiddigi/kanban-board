@@ -1,0 +1,12 @@
+kanban-ui:
+  name: kanban-ui
+  replicaCount: 1
+  enabled: true
+kanban-app:
+  name: kanban-app
+  replicaCount: 1
+  enabled: true
+kanban-postgres:
+  name: kanban-postgres
+  replicaCount: 1
+  enabled: true

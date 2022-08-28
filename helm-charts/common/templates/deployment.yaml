@@ -1,0 +1,78 @@
+{{- define "common.deployment" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "common.name" . }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "common.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "common.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "common.serviceAccountName" . }}
+      {{- if .Values.podSecurityContext }}
+      securityContext:
+      {{ toYaml .Values.podSecurityContext | indent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- with .Values.securityContext }}
+          securityContext:
+          {{- tpl . $ | trimSuffix "\n" | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.ports }}
+          ports:
+          {{ toYaml .Values.ports | nindent 12 }}
+          {{- end}}
+          {{- if .Values.env }}
+          env:
+          {{- with .Values.env }}
+          {{- tpl . $ | trimSuffix "\n" | nindent 12 }}
+          {{- end }}
+          {{- end}}
+          {{- if .Values.config }}
+          envFrom: 
+            - configMapRef:
+                name: {{ .Values.config.name }}
+          {{- end }}
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+          {{- toYaml . | trimSuffix "\n" | nindent 12 }}
+          {{- end }}
+          {{- end }}
+          {{- if  .Values.enableReadinessProbe }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+          {{- toYaml . | trimSuffix "\n" | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end -}}

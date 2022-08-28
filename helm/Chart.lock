@@ -1,0 +1,12 @@
+dependencies:
+- name: kanban-ui
+  repository: file://../helm-charts/kanban-ui
+  version: 0.1.0
+- name: kanban-app
+  repository: file://../helm-charts/kanban-app
+  version: 0.1.0
+- name: postgres
+  repository: file://../helm-charts/postgres
+  version: 0.1.0
+digest: sha256:4adb884240c27374209a799980023984530760e7b1ceda4cc8339103916afb18
+generated: "2022-11-04T18:03:16.669233+05:30"

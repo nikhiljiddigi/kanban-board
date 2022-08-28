@@ -39,3 +39,24 @@ jobs:
         push: true
         tags: |
           ghcr.io/nikhiljiddigi/kanban-app:latest
+    # - name: Build and package helm charts
+    #   uses: hiberbee/github-action-helm@latest
+    - name: Build and package helm charts
+      run: |
+        helm dep up helm-charts/kanban-app
+        helm dep up helm-charts/kanban-ui
+        helm lint helm-charts/kanban-app
+        helm lint helm-charts/kanban-ui
+        helm dep up helm/
+        helm lint helm/
+        helm package helm/
+    - name: Push Helm chart to OCI compatible registry (Github)
+      uses: bsord/helm-push@v4.1.0
+      with:
+        useOCIRegistry: true
+        registry-url:  oci://ghcr.io/${{ github.repository }}
+        username: ${{ github.repository_owner }}
+        access-token: ${{ secrets.GHCR_TOKEN }}
+        force: true
+        chart-folder: helm
+        update-dependencies: true
