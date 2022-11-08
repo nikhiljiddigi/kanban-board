@@ -1,5 +1,7 @@
 ## Kanban Application
 
+[![Github Actions Build Status](https://github.com/nikhiljiddigi/kanban-board/actions/workflows/workflow.yml/badge.svg)](https://github.com/nikhiljiddigi/kanban-board/actions/workflows/workflow.yml)
+
 This is a simple implementation of a Kanban Board, a tool that helps visualize and manage work. Originally it was first created in Toyota automotive, but nowadays it's widely used in software development.
 
 A Kanban Board is usually made of 3 columns - *TODO*, *InProgres*s & *Done*. In each column there are Post-it notes that represents task and their status.
